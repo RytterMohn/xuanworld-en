@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../site.config';
+---
+
+<BaseLayout title="About" description={`About ${SITE.author} — AI Security & Systems Engineer.`}>
+  <div class="article-header">
+    <h1>About</h1>
+    <p class="post-desc">{SITE.tagline}</p>
+  </div>
+
+  <div class="prose">
+    <p>
+      I'm <strong>{SITE.author}</strong>, an AI Security &amp; Systems Engineer interested in how real-world systems break—and
+      how to make them verifiable and resilient.
+    </p>
+
+    <h2>What I work on</h2>
+    <ul>
+      <li>
+        <strong>LLM Red Teaming &amp; AI Security</strong>: Contributing fixes and evaluations to frameworks like NVIDIA
+        Garak and Microsoft PyRIT, and building agentic security tooling.
+      </li>
+      <li>
+        <strong>Mobile AI Agents</strong>: Building <a href="https://github.com/RytterMohn/LifeBuddy" target="_blank" rel="noopener noreferrer">LifeBuddy</a>,
+        an Android assistant designed around verifiable local execution policies, learned app skills, and MCP extensions.
+      </li>
+      <li>
+        <strong>Android Internals &amp; Reverse Engineering</strong>: Runtime instrumentation, Frida/LSPosed tooling
+        (<a href="https://github.com/RytterMohn/EnvScope" target="_blank" rel="noopener noreferrer">EnvScope</a>,{' '}
+        <a href="https://github.com/RytterMohn/EasyHook" target="_blank" rel="noopener noreferrer">EasyHook</a>,{' '}
+        <a href="https://github.com/RytterMohn/UsbDetectionBypass" target="_blank" rel="noopener noreferrer">UsbDetectionBypass</a>).
+      </li>
+      <li>
+        <strong>Web &amp; WAF Security</strong>: Rule engine edge cases and request/response lifecycle correctness in OWASP
+        Coraza WAF.
+      </li>
+    </ul>
+
+    <h2>Two blogs, two audiences</h2>
+    <p>
+      This site (<code>en.xuanworld.top</code>) hosts curated English engineering write-ups intended for the global
+      developer community. If you read Chinese, you can also visit my Chinese blog at{' '}
+      <a href={SITE.zhSiteUrl} hreflang="zh-CN">www.xuanworld.top ↗</a>.
+    </p>
+
+    <h2>Contact</h2>
+    <ul>
+      <li>GitHub: <a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer">github.com/RytterMohn</a></li>
+      <li>Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+      <li>RSS: <a href="/rss.xml">/rss.xml</a></li>
+    </ul>
+  </div>
+</BaseLayout>

@@ -1,0 +1,104 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { OSS_HIGHLIGHTS, PROJECTS, SITE } from '../site.config';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+---
+
+<BaseLayout>
+  <section class="hero">
+    <h1>Hi, I'm {SITE.author}.</h1>
+    <p>
+      AI Security &amp; Systems Engineer working on LLM red teaming, mobile AI agents, WAF internals, and Android
+      reverse engineering. This is my English engineering notebook—curated deep dives, architecture notes, and open-source
+      write-ups.
+    </p>
+    <div class="social-row">
+      <a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      <a href={`mailto:${SITE.email}`}>Email</a>
+      <a href="/rss.xml">RSS Feed</a>
+      <a href={SITE.zhSiteUrl} hreflang="zh-CN">Chinese Blog (xuanworld.top) ↗</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Latest Writing</h2>
+      <a href="/posts">All posts →</a>
+    </div>
+    <ul class="post-list">
+      {
+        posts.slice(0, 6).map((post) => (
+          <li class="post-item">
+            <a class="post-title" href={`/posts/${post.id}/`}>
+              {post.data.title}
+            </a>
+            <div class="post-meta">
+              <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+              {post.data.tags.length > 0 && (
+                <span>
+                  {post.data.tags.map((t, i) => (
+                    <>
+                      {i > 0 && ' · '}
+                      <a href={`/tags/${encodeURIComponent(t)}/`}>#{t}</a>
+                    </>
+                  ))}
+                </span>
+              )}
+            </div>
+            <p class="post-desc">{post.data.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Selected Projects</h2>
+      <a href="/projects">All projects →</a>
+    </div>
+    <div class="card-grid">
+      {
+        PROJECTS.slice(0, 4).map((p) => (
+          <article class="card">
+            <div class="card-top">
+              <a class="card-title" href={p.repo} target="_blank" rel="noopener noreferrer">
+                {p.name} ↗
+              </a>
+              <span class="card-pill">{p.highlight ? `${p.area} · ${p.highlight}` : p.area}</span>
+            </div>
+            <p>{p.summary}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2>Upstream Open Source</h2>
+      <a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer">GitHub profile ↗</a>
+    </div>
+    <ul class="oss-list">
+      {
+        OSS_HIGHLIGHTS.map((item) => (
+          <li>
+            <strong>
+              <a href={item.url} target="_blank" rel="noopener noreferrer">
+                {item.project}
+              </a>
+            </strong>{' '}
+            (<code>{item.pr}</code>) — {item.note}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>
