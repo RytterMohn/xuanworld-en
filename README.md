@@ -1,38 +1,10 @@
 # xuanworld-en
 
-English engineering blog for **RytterMohn**, deployed at [en.xuanworld.top](https://en.xuanworld.top) and cross-linked with the Chinese blog at [www.xuanworld.top](https://www.xuanworld.top/).
+English engineering blog for **RytterMohn** at [en.xuanworld.top](https://en.xuanworld.top/), built with [Astro Cactus](https://github.com/chrismwilliams/astro-theme-cactus) and cross-linked with [www.xuanworld.top](https://www.xuanworld.top/).
 
-Built with [Astro](https://astro.build/), zero heavy client frameworks, dual light/dark themes, RSS, sitemap, and automatic GitHub Pages deployment.
+## Writing content
 
-## Writing a new post
+- **Long-form posts**: add Markdown/MDX files under `content/posts/`
+- **Short notes**: add Markdown/MDX files under `content/notes/`
 
-Create a Markdown file in `src/content/blog/<slug>.md`:
-
-```markdown
----
-title: "Your Post Title"
-description: "One-sentence summary for cards and SEO."
-pubDate: 2026-11-25
-tags: ["ai-security", "android"]
-# Optional link to a matching Chinese post:
-# zhUrl: "https://www.xuanworld.top/2026/..."
----
-
-Write your post here...
-```
-
-## Local development
-
-```bash
-npm install
-npm run dev
-npm run build
-```
-
-## Custom domain DNS (`en.xuanworld.top`)
-
-Add a DNS `CNAME` record at your domain registrar:
-
-- **Type**: `CNAME`
-- **Host / Name**: `en`
-- **Target / Value**: `ryttermohn.github.io`
+Push to `main` and GitHub Actions automatically builds, indexes Pagefind search, and deploys to GitHub Pages (`https://en.xuanworld.top/`).

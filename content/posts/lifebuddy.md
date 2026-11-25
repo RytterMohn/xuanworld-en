@@ -1,10 +1,12 @@
 ---
 title: "LifeBuddy: A Personal On-Device Android AI Assistant"
 description: "Design philosophy, core capabilities, live QQ messaging walkthrough, and architecture of LifeBuddy—an open-source Android AI assistant with on-device execution, learned skills, and MCP extensions."
-pubDate: 2026-11-25
+publishDate: "25 Nov 2026"
 tags: ["android", "ai-agents", "mcp", "open-source"]
-zhUrl: "https://www.xuanworld.top/2026/11/25/lifebuddy/"
+pinned: true
 ---
+
+> Read in Chinese: [LifeBuddy：在手机本地运行的个人 Android AI 助手 (www.xuanworld.top)](https://www.xuanworld.top/2026/11/25/lifebuddy/)
 
 I have been building my own personal Android AI assistant—**LifeBuddy** (currently at `0.2.0-alpha18`)—and open-sourced it on GitHub. This post walks through its motivation, core capabilities, a real end-to-end demo on QQ, its architecture, and how to try or build it yourself.
 

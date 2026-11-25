@@ -1,116 +1,24 @@
 ---
-import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { SITE } from '../../site.config';
+import { render } from "astro:content";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
+import { getAllPosts } from "@/data/post";
+import PostLayout from "@/layouts/BlogPost.astro";
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
-}
+// if you're using an adaptor in SSR mode, getStaticPaths wont work -> https://docs.astro.build/en/guides/routing/#modifying-the-slug-example-for-ssr
+export const getStaticPaths = (async () => {
+	const blogEntries = await getAllPosts();
+	return blogEntries.map((post) => ({
+		params: { slug: post.id },
+		props: { post },
+	}));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { post } = Astro.props;
-const { Content, headings } = await render(post);
-const words = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
-const readingMinutes = Math.max(1, Math.round(words / 220));
-const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
-
-const formatDate = (d: Date) =>
-  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const { Content } = await render(post);
 ---
 
-<BaseLayout
-  title={post.data.title}
-  description={post.data.description}
-  zhUrl={post.data.zhUrl ?? SITE.zhSiteUrl}
-  type="article"
-  pubDate={post.data.pubDate}
->
-  <article>
-    <header class="article-header">
-      <h1>{post.data.title}</h1>
-      <div class="post-meta">
-        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-        <span>·</span>
-        <span>{readingMinutes} min read</span>
-        {
-          post.data.zhUrl && (
-            <>
-              <span>·</span>
-              <a href={post.data.zhUrl} hreflang="zh-CN">
-                阅读中文版 ↗
-              </a>
-            </>
-          )
-        }
-      </div>
-      {
-        post.data.tags.length > 0 && (
-          <div class="tag-row" style="margin-top: 0.75rem;">
-            {post.data.tags.map((tag) => (
-              <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>
-                #{tag}
-              </a>
-            ))}
-          </div>
-        )
-      }
-    </header>
-
-    {
-      toc.length >= 3 && (
-        <nav class="toc" aria-label="Table of contents">
-          <div class="toc-title">On this page</div>
-          <ul>
-            {toc.map((h) => (
-              <li class={`depth-${h.depth}`}>
-                <a href={`#${h.slug}`}>{h.text}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )
-    }
-
-    <div class="prose">
-      <Content />
-    </div>
-
-    <hr style="border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0 1.5rem;" />
-    <div class="post-meta" style="justify-content: space-between;">
-      <a href="/posts">← Back to all posts</a>
-      <a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer">Discuss on GitHub ↗</a>
-    </div>
-  </article>
-
-  <script is:inline>
-    (() => {
-      document.querySelectorAll('.prose pre').forEach((pre) => {
-        if (pre.parentElement?.classList.contains('code-wrapper')) return;
-        const wrapper = document.createElement('div');
-        wrapper.className = 'code-wrapper';
-        pre.parentNode?.insertBefore(wrapper, pre);
-        wrapper.appendChild(pre);
-
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'copy-code-btn';
-        btn.textContent = 'Copy';
-        btn.addEventListener('click', async () => {
-          const text = pre.querySelector('code')?.textContent ?? pre.textContent ?? '';
-          try {
-            await navigator.clipboard.writeText(text);
-            btn.textContent = 'Copied';
-            setTimeout(() => (btn.textContent = 'Copy'), 1600);
-          } catch {
-            btn.textContent = 'Failed';
-            setTimeout(() => (btn.textContent = 'Copy'), 1600);
-          }
-        });
-        wrapper.appendChild(btn);
-      });
-    })();
-  </script>
-</BaseLayout>
+<PostLayout post={post}>
+	<Content />
+</PostLayout>

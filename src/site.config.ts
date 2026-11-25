@@ -1,101 +1,74 @@
-export const SITE = {
-  title: 'xuanworld',
-  tagline: 'AI Security, Android Internals & Systems Engineering',
-  description:
-    'Engineering notes by RytterMohn on LLM red teaming, mobile AI agents, WAF security, and Android reverse engineering.',
-  author: 'RytterMohn',
-  siteUrl: 'https://en.xuanworld.top',
-  zhSiteUrl: 'https://www.xuanworld.top/',
-  githubUrl: 'https://github.com/RytterMohn',
-  email: 'ryttermohn@gmail.com',
-} as const;
+import type { AstroExpressiveCodeOptions } from "astro-expressive-code";
+import type { SiteConfig } from "@/types";
 
-export interface ProjectItem {
-  name: string;
-  area: string;
-  repo: string;
-  summary: string;
-  highlight?: string;
-}
+export const siteConfig: SiteConfig = {
+	url: "https://en.xuanworld.top/",
+	title: "xuanworld",
+	author: "RytterMohn",
+	description:
+		"Engineering notes by RytterMohn on AI security, mobile AI agents, WAF internals, and Android reverse engineering.",
+	lang: "en-US",
+	ogLocale: "en_US",
+	showLogo: true,
+	date: {
+		options: {
+			day: "numeric",
+			month: "short",
+			year: "numeric",
+		},
+	},
+};
 
-export const PROJECTS: ProjectItem[] = [
-  {
-    name: 'LifeBuddy',
-    area: 'AI Agents',
-    repo: 'https://github.com/RytterMohn/LifeBuddy',
-    summary:
-      'Bilingual Android AI assistant with accessibility-driven automation, file-backed UI inspection (read/grep), persistent memory, learned skills, and MCP tool integration.',
-    highlight: 'Featured',
-  },
-  {
-    name: 'EnvScope',
-    area: 'Android Security',
-    repo: 'https://github.com/RytterMohn/EnvScope',
-    summary:
-      'Android runtime self-check APK combining Kotlin and native C++ cross-checks for Frida, Xposed/LSPosed, Riru, Zygisk/Magisk, and hook artifacts.',
-    highlight: '45★',
-  },
-  {
-    name: 'UsbDetectionBypass',
-    area: 'Android Security',
-    repo: 'https://github.com/RytterMohn/UsbDetectionBypass',
-    summary:
-      'LSPosed/Xposed module that masks USB connection and USB debugging detection signals inside Android applications.',
-    highlight: '44★',
-  },
-  {
-    name: 'EasyHook',
-    area: 'Android Reverse',
-    repo: 'https://github.com/RytterMohn/EasyHook',
-    summary:
-      'Windows desktop IDE for Android Frida scripts supporting device management, attach/spawn injection, script editing, and live logs.',
-    highlight: '40★',
-  },
-  {
-    name: 'APKAgents',
-    area: 'AI Security',
-    repo: 'https://github.com/RytterMohn/APKAgents',
-    summary:
-      'Multi-agent automated APK security analysis, vulnerability scanning, and reporting pipeline built on LangChain and CrewAI.',
-  },
-  {
-    name: 'Native-Code-Malware-Detection',
-    area: 'AI Security',
-    repo: 'https://github.com/RytterMohn/Native-Code-Malware-Detection',
-    summary:
-      'RNN-based Android malware detector combining Java and native runtime API call sequences with permission features.',
-  },
+// Used to generate links in both the Header & Footer.
+export const menuLinks: { path: string; title: string }[] = [
+	{
+		path: "/",
+		title: "Home",
+	},
+	{
+		path: "/about/",
+		title: "About",
+	},
+	{
+		path: "/posts/",
+		title: "Blog",
+	},
+	{
+		path: "/notes/",
+		title: "Notes",
+	},
+	{
+		path: "https://www.xuanworld.top/",
+		title: "中文 ↗",
+	},
 ];
 
-export const OSS_HIGHLIGHTS = [
-  {
-    project: 'Elasticsearch',
-    url: 'https://github.com/elastic/elasticsearch/pull/166303',
-    pr: '#166303',
-    note: 'Added mutation coverage tests for field mapping responses.',
-  },
-  {
-    project: 'Apache OpenNLP',
-    url: 'https://github.com/apache/opennlp/pull/1591',
-    pr: '#1591 / #1592',
-    note: 'Unified UnicodeWhitespace newline handling when keepNewLines is enabled and backported to 2.x.',
-  },
-  {
-    project: 'NVIDIA ccluster',
-    url: 'https://github.com/NVIDIA/ccluster/pull/304',
-    pr: '#304',
-    note: 'Fixed error reporting when checking control planes without the ccluster API enabled.',
-  },
-  {
-    project: 'NVIDIA Garak & Microsoft PyRIT',
-    url: 'https://github.com/RytterMohn',
-    pr: 'LLM Red Teaming',
-    note: 'Fixes across WebSocket credential scanning, PromptShield XML parsing, CrescendoAttack refusal scoring, and bootstrap CI math.',
-  },
-  {
-    project: 'OWASP Coraza WAF',
-    url: 'https://github.com/corazawaf/coraza',
-    pr: 'WAF Engine',
-    note: 'Hardening audit logging, SecResponseBodyMimeType parsing, Phase 3 interception, and RuleGroup isolation.',
-  },
-];
+// https://expressive-code.com/reference/configuration/
+export const expressiveCodeOptions: AstroExpressiveCodeOptions = {
+	styleOverrides: {
+		borderRadius: "4px",
+		codeFontFamily:
+			'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+		codeFontSize: "0.875rem",
+		codeLineHeight: "1.7142857rem",
+		codePaddingInline: "1rem",
+		frames: {
+			frameBoxShadowCssValue: "none",
+		},
+		uiLineHeight: "inherit",
+	},
+	themeCssSelector(theme, { styleVariants }) {
+		// If one dark and one light theme are available
+		// generate theme CSS selectors compatible with cactus-theme dark mode switch
+		if (styleVariants.length >= 2) {
+			const baseTheme = styleVariants[0]?.theme;
+			const altTheme = styleVariants.find((v) => v.theme.type !== baseTheme?.type)?.theme;
+			if (theme === baseTheme || theme === altTheme) return `[data-theme='${theme.type}']`;
+		}
+		// return default selector
+		return `[data-theme="${theme.name}"]`;
+	},
+	// One dark, one light theme => https://expressive-code.com/guides/themes/#available-themes
+	themes: ["dracula", "github-light"],
+	useThemedScrollbars: false,
+};

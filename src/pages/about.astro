@@ -1,54 +1,69 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../site.config';
+import PageLayout from "@/layouts/Base.astro";
+
+const meta = {
+	description: "About RytterMohn — AI Security & Systems Engineer.",
+	title: "About",
+};
 ---
 
-<BaseLayout title="About" description={`About ${SITE.author} — AI Security & Systems Engineer.`}>
-  <div class="article-header">
-    <h1>About</h1>
-    <p class="post-desc">{SITE.tagline}</p>
-  </div>
+<PageLayout meta={meta}>
+	<h1 class="title mb-12">About</h1>
+	<div class="prose prose-sm prose-cactus max-w-none">
+		<p>
+			Hi, I'm <strong>RytterMohn</strong>, an AI Security &amp; Systems Engineer focusing on LLM red
+			teaming, mobile AI agents, web/WAF security, and Android reverse engineering.
+		</p>
 
-  <div class="prose">
-    <p>
-      I'm <strong>{SITE.author}</strong>, an AI Security &amp; Systems Engineer interested in how real-world systems break—and
-      how to make them verifiable and resilient.
-    </p>
+		<h2>Selected Open-Source Projects</h2>
+		<ul class="list-inside list-disc" role="list">
+			<li>
+				<a class="cactus-link" href="https://github.com/RytterMohn/LifeBuddy" rel="noreferrer" target="_blank">LifeBuddy</a>
+				— Personal on-device Android AI assistant with accessibility automation, persistent memory,
+				learned skills, and MCP tool integration.
+			</li>
+			<li>
+				<a class="cactus-link" href="https://github.com/RytterMohn/EnvScope" rel="noreferrer" target="_blank">EnvScope</a>
+				(45★) — Android runtime self-check APK with Kotlin + native C++ cross-checks for Frida,
+				LSPosed, Riru, and Zygisk/Magisk artifacts.
+			</li>
+			<li>
+				<a class="cactus-link" href="https://github.com/RytterMohn/UsbDetectionBypass" rel="noreferrer" target="_blank">UsbDetectionBypass</a>
+				(44★) — LSPosed/Xposed module that masks USB connection and debugging detection signals.
+			</li>
+			<li>
+				<a class="cactus-link" href="https://github.com/RytterMohn/EasyHook" rel="noreferrer" target="_blank">EasyHook</a>
+				(40★) — Windows desktop IDE for Android Frida scripting, attach/spawn injection, and live
+				logging.
+			</li>
+			<li>
+				<a class="cactus-link" href="https://github.com/RytterMohn/APKAgents" rel="noreferrer" target="_blank">APKAgents</a>
+				— Multi-agent automated APK security analysis and vulnerability scanning pipeline.
+			</li>
+		</ul>
 
-    <h2>What I work on</h2>
-    <ul>
-      <li>
-        <strong>LLM Red Teaming &amp; AI Security</strong>: Contributing fixes and evaluations to frameworks like NVIDIA
-        Garak and Microsoft PyRIT, and building agentic security tooling.
-      </li>
-      <li>
-        <strong>Mobile AI Agents</strong>: Building <a href="https://github.com/RytterMohn/LifeBuddy" target="_blank" rel="noopener noreferrer">LifeBuddy</a>,
-        an Android assistant designed around verifiable local execution policies, learned app skills, and MCP extensions.
-      </li>
-      <li>
-        <strong>Android Internals &amp; Reverse Engineering</strong>: Runtime instrumentation, Frida/LSPosed tooling
-        (<a href="https://github.com/RytterMohn/EnvScope" target="_blank" rel="noopener noreferrer">EnvScope</a>,{' '}
-        <a href="https://github.com/RytterMohn/EasyHook" target="_blank" rel="noopener noreferrer">EasyHook</a>,{' '}
-        <a href="https://github.com/RytterMohn/UsbDetectionBypass" target="_blank" rel="noopener noreferrer">UsbDetectionBypass</a>).
-      </li>
-      <li>
-        <strong>Web &amp; WAF Security</strong>: Rule engine edge cases and request/response lifecycle correctness in OWASP
-        Coraza WAF.
-      </li>
-    </ul>
+		<h2>Upstream Contributions</h2>
+		<p>
+			Merged and active contributions across <strong>Elasticsearch</strong>,{" "}
+			<strong>Apache OpenNLP</strong>, <strong>NVIDIA ccluster</strong>,{" "}
+			<strong>NVIDIA Garak</strong>, <strong>Microsoft PyRIT</strong>, and{" "}
+			<strong>OWASP Coraza WAF</strong>.
+		</p>
 
-    <h2>Two blogs, two audiences</h2>
-    <p>
-      This site (<code>en.xuanworld.top</code>) hosts curated English engineering write-ups intended for the global
-      developer community. If you read Chinese, you can also visit my Chinese blog at{' '}
-      <a href={SITE.zhSiteUrl} hreflang="zh-CN">www.xuanworld.top ↗</a>.
-    </p>
-
-    <h2>Contact</h2>
-    <ul>
-      <li>GitHub: <a href={SITE.githubUrl} target="_blank" rel="noopener noreferrer">github.com/RytterMohn</a></li>
-      <li>Email: <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-      <li>RSS: <a href="/rss.xml">/rss.xml</a></li>
-    </ul>
-  </div>
-</BaseLayout>
+		<h2>Contact &amp; Chinese Blog</h2>
+		<ul class="list-inside list-disc" role="list">
+			<li>
+				GitHub:{" "}
+				<a class="cactus-link" href="https://github.com/RytterMohn" rel="noreferrer" target="_blank">github.com/RytterMohn</a>
+			</li>
+			<li>
+				Email:{" "}
+				<a class="cactus-link" href="mailto:ryttermohn@gmail.com">ryttermohn@gmail.com</a>
+			</li>
+			<li>
+				Chinese Blog:{" "}
+				<a class="cactus-link" href="https://www.xuanworld.top/" hreflang="zh-CN">www.xuanworld.top</a>
+			</li>
+		</ul>
+	</div>
+</PageLayout>
